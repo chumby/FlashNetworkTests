@@ -28,7 +28,9 @@ class XMLSocketPigLatinServer extends XMLSocketServer
 class HTTPFlashServer extends HTTPServer
 	constructor:(port=80)->
 		super port
-		@get "/crossdomain.xml",(req,res)=>@file req,res,"crossdomain.xml","application/xml"
+		@get "/crossdomain.xml",(req,res)=>
+			console.log "#{@name}: request fro crossdomain.xml"
+			@file req,res,"crossdomain.xml","application/xml"
 		@get "/loadvars/load",(req,res)=>@file req,res,"loadvars_load.txt","application/x-www-form-urlencoded"
 		@post "/loadvars/send_and_load",(req,res)=>@loadvars_send_and_load req,res # used by standalone player
 		@post "/loadvars/send_and_load",(req,res)=>@loadvars_send_and_load req,res # used by browser plugin and Flash Lite
@@ -39,15 +41,13 @@ class HTTPFlashServer extends HTTPServer
 	loadvars_send_and_load:(req,res)->
 		@getPostBody req,(data)=>
 			res.writeHead 200,{'Content-Type' : 'x-www-form-urlencoded'}
-			res.end data
+			res.end PigLatin.translate data
 			@
 
 	xml_send_and_load:(req,res)->
 		@getPostBody req,(data)=>
 			res.writeHead 200,{'Content-Type' : 'application/xml'}
-			data = PigLatin.translate data
-			console.log "responding with #{data}"
-			res.end data
+			res.end PigLatin.translate data
 			@
 		@
 

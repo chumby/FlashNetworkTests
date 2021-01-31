@@ -63,6 +63,6 @@ class PigLatin
 			sWord = sFirst.toUpperCase() + sWord.substring 1,sWord.length
 		sWord
 
-console.log PigLatin.translate '<translate text="some text"/>'
+#console.log PigLatin.translate '<translate text="some text"/>'
 
 module.exports = PigLatin

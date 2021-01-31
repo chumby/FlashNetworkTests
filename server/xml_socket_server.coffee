@@ -14,13 +14,14 @@ class XMLSocketServer
 				@emitData stream,"<connected/>"
 				@
 			stream.on 'end',=>
-				console.log "#{@name}: ending connection from #{stream.remoteAddress}"
-				@streams.remove stream
+				console.log "#{@name}: ending connection" #" from #{stream.remoteAddress}"
+				#@streams.delete stream ### DSM should fix this
 				@
 			stream.on 'error',(error)=>
 				console.log "#{@name}: error #{error} from #{stream.remoteAddress}"
 				@
 			stream.on 'data',(data)=>
+				data = data.slice 0,-1 # remove trailing null
 				@onData stream,data
 				@
 		console.log "#{@name}: starting"
